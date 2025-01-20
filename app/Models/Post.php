@@ -13,4 +13,19 @@ class Post extends Model
     {
         return $this->belongsTo(User::class, 'owner_id');
     }
+
+    public function vote()
+    {
+        return $this->hasOne(PostVote::class, 'post_id', 'id');
+    }
+
+    public function followers()
+    {
+        return $this->hasMany(PostFollow::class, 'post_id', 'id');
+    }
+   
+    public function isFollowedBy($userId)
+    {
+        return $this->followers()->where('follower_id', $userId)->exists();
+    }
 }
